@@ -100,17 +100,3 @@ Após a execução, o arquivo `coverage.html` será gerado na raiz do projeto, p
 A Temperature API está disponível no seguinte link: [Temperature API](https://temperature-api-mszsnkdbwq-uc.a.run.app/temperature?cep=65909001)
 
 Para utilizar, passe o CEP desejado via query params, por exemplo: `https://temperature-api-mszsnkdbwq-uc.a.run.app/temperature?cep=SEU_CEP_AQUI`.
-
-## Contribuindo
-
-Instruções para contribuição, como abrir issues, enviar pull requests, padrões de código, etc.
-
-## Licença
-
-Detalhes da licença do projeto (se aplicável).
-
----
-
-Agradecemos pelo seu interesse na Temperature API! Se tiver alguma dúvida ou sugestão, não hesite em abrir uma issue no repositório.
-
-Este README é um guia básico e pode ser adaptado conforme as necessidades e características específicas do seu projeto.
