@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 
 	"github.com/GeovaneCavalcante/temperatura-cep/pkg/logger"
 	"github.com/GeovaneCavalcante/temperatura-cep/pkg/requester"
@@ -34,9 +35,8 @@ func New(url, key string, req requester.Sender) *WeatherFetcher {
 func (w *WeatherFetcher) GetByCity(ctx context.Context, city string) (*temperature.Info, error) {
 
 	logger.Info("[WeatherFetcher] starting api for city: " + city)
-
 	cfg := requester.Configuration{
-		Url:        fmt.Sprintf("%s?key=%s&q=%s", w.Url, w.Key, city),
+		Url:        fmt.Sprintf("%s?key=%s&q=%s", w.Url, w.Key, url.QueryEscape(city)),
 		Method:     "get",
 		ContetType: "application/json",
 	}
