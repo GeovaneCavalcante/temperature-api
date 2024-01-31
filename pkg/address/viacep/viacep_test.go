@@ -70,6 +70,21 @@ func (suite *ViaCepTestSuite) TestGetByZipCode() {
 		suite.Nil(addressInfo)
 		suite.NotNil(err)
 	})
+
+	suite.Run("should return error when request return error", func() {
+		suite.Requester.EXPECT().
+			Send(gomock.Any(), gomock.Any()).
+			Return(requester.Response{StatusCode: 404, Body: []byte(`{"erro":true}`)}, nil)
+
+		v := New(suite.Url, suite.Requester)
+		ctx := context.Background()
+
+		addressInfo, err := v.GetByZipCode(ctx, "65903270")
+
+		suite.Nil(addressInfo)
+		suite.NotNil(err)
+		suite.Equal("zipcode not found: 65903270", err.Error())
+	})
 }
 
 func TestSuite(t *testing.T) {
