@@ -255,6 +255,10 @@ func (v *ViaCepFetcher) GetByZipCode(ctx context.Context, zipCode string) (*addr
                 return nil, fmt.Errorf("fail to unmarshal response body for zipcode %s: %w", zipCode, err)
         }</span>
 
+        <span class="cov8" title="1">if zipCodeInfo.Erro </span><span class="cov8" title="1">{
+                logger.Error("[ViaCepFetcher] zipcode not found: "+zipCode, nil)
+                return nil, fmt.Errorf("zipcode not found: %s", zipCode)
+        }</span>
         <span class="cov8" title="1">AddressInfo := toAddressInfo(zipCodeInfo)
 
         logger.Info("[ViaCepFetcher] finishing api for zipcode " + zipCode)
@@ -275,6 +279,7 @@ import (
         "context"
         "encoding/json"
         "fmt"
+        "net/url"
 
         "github.com/GeovaneCavalcante/temperatura-cep/pkg/logger"
         "github.com/GeovaneCavalcante/temperatura-cep/pkg/requester"
@@ -305,9 +310,8 @@ func New(url, key string, req requester.Sender) *WeatherFetcher <span class="cov
 func (w *WeatherFetcher) GetByCity(ctx context.Context, city string) (*temperature.Info, error) <span class="cov8" title="1">{
 
         logger.Info("[WeatherFetcher] starting api for city: " + city)
-
         cfg := requester.Configuration{
-                Url:        fmt.Sprintf("%s?key=%s&amp;q=%s", w.Url, w.Key, city),
+                Url:        fmt.Sprintf("%s?key=%s&amp;q=%s", w.Url, w.Key, url.QueryEscape(city)),
                 Method:     "get",
                 ContetType: "application/json",
         }

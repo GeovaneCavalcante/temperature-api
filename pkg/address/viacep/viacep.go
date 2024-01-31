@@ -59,6 +59,10 @@ func (v *ViaCepFetcher) GetByZipCode(ctx context.Context, zipCode string) (*addr
 		return nil, fmt.Errorf("fail to unmarshal response body for zipcode %s: %w", zipCode, err)
 	}
 
+	if zipCodeInfo.Erro {
+		logger.Error("[ViaCepFetcher] zipcode not found: "+zipCode, nil)
+		return nil, fmt.Errorf("zipcode not found: %s", zipCode)
+	}
 	AddressInfo := toAddressInfo(zipCodeInfo)
 
 	logger.Info("[ViaCepFetcher] finishing api for zipcode " + zipCode)
